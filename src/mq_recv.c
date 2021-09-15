@@ -8,7 +8,7 @@
 #include <time.h>
 #include <sys/time.h>
 #include <stdint.h>
-#include "que.h"
+#include "mq.h"
 
 #define Q 0x4000
 
@@ -21,7 +21,7 @@ uint64_t localtime_ms(){
 void *pthread_handler(void* arg){
     int timeout = *(int*)arg+1,ret;
     free(arg);
-    timeout *= 1000;
+    // timeout *= 1000;
     unsigned char data[1000];
     uint64_t old,now;
     for(;;){

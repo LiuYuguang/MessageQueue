@@ -1,4 +1,4 @@
-CFLAGS := -Wall -O -g
+CFLAGS := -Wall -O
 INC := -I./include
 
 SRC := $(wildcard src/*.c)
@@ -6,21 +6,25 @@ OBJ := $(patsubst src/%.c, obj/%.o, $(SRC))
 
 CC     := gcc
 
-TARGET := que_recv que_send
+TARGET := mq_recv mq_send
 
-all: $(TARGET)
+all: obj $(TARGET)
 
-que_recv: que_recv.o que.o rbtree.o
+mq_recv: mq_recv.o mq.o rbtree.o
 	$(CC) -o $@ $^ -lpthread
 
-que_send: que_send.o que.o rbtree.o
+mq_send: mq_send.o mq.o rbtree.o
 	$(CC) -o $@ $^ -lpthread
 
 $(OBJ): obj/%.o : src/%.c
 	$(CC) -c $(CFLAGS) -o $@ $< $(INC)
 
+obj:
+	@mkdir -p $@
+
 clean:
 	-rm $(OBJ) $(TARGET)
+	@rmdir obj
 
 .PHONY: all clean 
 
